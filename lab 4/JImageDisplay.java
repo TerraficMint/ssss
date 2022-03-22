@@ -36,4 +36,8 @@ public class JImageDisplay extends JComponent {
             }
         }
     }
+
+    public BufferedImage getImage() {
+        return img;
+    }
 }
