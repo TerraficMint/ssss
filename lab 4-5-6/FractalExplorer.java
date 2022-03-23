@@ -100,7 +100,9 @@ public class FractalExplorer {
     }
 
     public void drawFractal() {
+        // отключение всех элементов пользовательского интерфейса во время рисования
         enableUI(false);
+        // определяем количество строк, которые нужно нарисовать
         rowsRemaining = screenSize;
         for (int x = 0; x < screenSize; x++) {
             FractalWorker drawRow = new FractalWorker(x);
@@ -109,6 +111,7 @@ public class FractalExplorer {
         }
     }
 
+    // отключение/включение элементов пользовательского интерфейса
     private void enableUI(boolean value) {
         comboBox.setEnabled(value);
         button_reset.setEnabled(value);
@@ -175,14 +178,19 @@ public class FractalExplorer {
         }
     }
 
+    // вычисляет значения цветов строки фрактала
     private class FractalWorker extends SwingWorker<Object, Object> {
+        // поле строки
         int yCoordinate;
+        // массив с цветами пикселей
         int[] pixColor;
 
         private FractalWorker(int yTarget) {
             yCoordinate = yTarget;
         }
 
+        // фоновый поток, сохранение каждого значения RGB в соответствующем элементе
+        // целочисленного массива
         protected Object doInBackground() {
             pixColor = new int[screenSize];
 
@@ -207,11 +215,13 @@ public class FractalExplorer {
             return null;
         }
 
+        // перебираем массив строк, рисуем пиксели, находящиеся в нем
         protected void done() {
             for (int i = 0; i < pixColor.length; i++) {
                 img.drawPixel(i, yCoordinate, pixColor[i]);
             }
 
+            // указываем область для перерисовки
             img.repaint(0, 0, yCoordinate, screenSize, 1);
             rowsRemaining--;
             if (rowsRemaining == 0) {
